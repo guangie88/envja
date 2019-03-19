@@ -1,0 +1,33 @@
+// Basis for ident
+alpha = _{ ASCII_ALPHA }
+digit = _{ ASCII_DIGIT }
+underscore = _{ "_" }
+ws = _{ " " | "\t" }
+
+// Basis for finding stmt and expr
+stmt_open = _{ "{%" }
+stmt_close = _{ "%}" }
+expr_open = _{ "{{" }
+expr_close = _{ "}}" }
+
+// For matching verbatim text
+char_grp = @{ char* }
+char = ${
+    !(stmt_open | stmt_close | expr_open | expr_close) ~ ANY
+}
+
+// Main body
+ident = { (alpha | underscore) ~ (alpha | digit | underscore)* }
+
+if_stmt_start = { stmt_open ~ ws* ~ "if" ~ ws* ~ ident ~ ws* ~ stmt_close }
+if_stmt_end = { stmt_open ~ ws* ~ "endif" ~ ws* ~ stmt_close }
+if_stmt = { if_stmt_start ~ compound ~ if_stmt_end }
+
+stmt = { if_stmt }
+expr = { expr_open ~ ws* ~ ident ~ ws* ~ expr_close }
+text = ${ char_grp }
+interpolate = _{ (stmt | expr) }
+compound = { (text ~ interpolate+ ~ compound | text) }
+
+// To create starting point, note that EOI will be matched
+doc = _{ SOI ~ compound ~ EOI }

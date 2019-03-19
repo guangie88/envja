@@ -1,0 +1,13 @@
+[package]
+name = "envja"
+version = "0.1.0"
+authors = ["Chen Weiguang <chen.weiguang@gmail.com>"]
+description = "Library for parsing / applying Jinja2-like syntax"
+edition = "2018"
+readme = "README.md"
+categories = ["value-formatting"]
+license = "MIT"
+
+[dependencies]
+pest = "2.1.0"
+pest_derive = "2.1.0"
