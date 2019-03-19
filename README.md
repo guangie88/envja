@@ -1,5 +1,7 @@
 # Envja
 
+[![Codefresh build status]( https://g.codefresh.io/api/badges/pipeline/guangie88/guangie88%2Fenvja%2Fenvja?branch=master&key=eyJhbGciOiJIUzI1NiJ9.NWM4MjcyMzg3Y2NkOTUzZTcxM2RiMjRl.cTJ8XB8rM4mRl2LmZBHaIVZ92MxdGgb7Mmib1jt8o4E&type=cf-1)]( https://g.codefresh.io/pipelines/envja/builds?repoOwner=guangie88&repoName=envja&serviceName=guangie88%2Fenvja&filter=trigger:build~Build;branch:master;pipeline:5c910b3106dad902d4820db7~envja)
+
 Performs environment variable interpolation in a Jinja2-lite syntax.
 
 Contains both the [CLI](cli/) and the [library](lib/) component.
