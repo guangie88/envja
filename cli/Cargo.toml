@@ -1,6 +1,6 @@
 [package]
 name = "envja-cli"
-version = "0.1.0"
+version = "0.2.0"
 authors = ["Chen Weiguang <chen.weiguang@gmail.com>"]
 description = "CLI for Jinja2-like env var interpolation"
 edition = "2018"
@@ -9,7 +9,7 @@ categories = ["command-line-utilities", "value-formatting"]
 license = "MIT"
 
 [dependencies]
-envja = { path = "../lib", version = "0.1.0" }
+envja = { path = "../lib", version = "0.2.0" }
 pest = "2.1.0"
 structopt = "0.2.15"
 

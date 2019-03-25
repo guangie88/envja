@@ -64,7 +64,7 @@ dependencies = [
 
 [[package]]
 name = "envja"
-version = "0.1.0"
+version = "0.2.0"
 dependencies = [
  "pest 2.1.0 (registry+https://github.com/rust-lang/crates.io-index)",
  "pest_derive 2.1.0 (registry+https://github.com/rust-lang/crates.io-index)",
@@ -72,9 +72,9 @@ dependencies = [
 
 [[package]]
 name = "envja-cli"
-version = "0.1.0"
+version = "0.2.0"
 dependencies = [
- "envja 0.1.0",
+ "envja 0.2.0",
  "pest 2.1.0 (registry+https://github.com/rust-lang/crates.io-index)",
  "structopt 0.2.15 (registry+https://github.com/rust-lang/crates.io-index)",
 ]

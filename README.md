@@ -77,3 +77,29 @@ int main() {
     return 123;
 }
 ```
+
+## Syntax Acceptance
+
+### If-statement
+
+```jinja
+{% if ENV %}ENV value is {{ ENV }}{% endif %}
+```
+
+### Expression
+
+```jinja
+{{ ENV }}
+```
+
+### Comments
+
+```jinja
+{# comments #}
+```
+
+### Regular text
+
+```jinja
+Regular text
+```

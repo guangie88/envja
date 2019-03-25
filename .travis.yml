@@ -1,0 +1,31 @@
+language: rust
+
+matrix:
+  include:
+  - name: Build fox Windows
+    os: windows
+    env:
+      EXE_EXT=".exe"
+      EXE_SUFFIX=windows-msvc_amd64
+  - name: Build for OSX
+    os: osx
+    env:
+      EXE_EXT=""
+      EXE_SUFFIX=darwin_amd64
+
+script:
+- cargo build --release
+- cp ./target/release/envja${EXE_EXT} ./envja_${EXE_SUFFIX}
+
+deploy:
+  provider: releases
+  api_key: "${GITHUB_TOKEN}"
+  file: ./envja_${EXE_SUFFIX}
+  skip_cleanup: true
+  on:
+    tags: true
+
+branches:
+  only:
+  - master
+  - /^v\d+\.\d+\.\d+(-\S*)?$/

@@ -148,6 +148,9 @@ fn interpolate_compound_impl(
             Rule::expr => {
                 interpolate_expr_impl(p, buffer, mappings)?;
             }
+            Rule::comm => {
+                // Do nothing
+            }
             Rule::text => {
                 buffer.push_str(p.as_str());
             }
@@ -290,6 +293,59 @@ int main() {
             let mut m = Mappings::new();
             m.insert("LINUX_HEADER".to_owned(), "unistd.h".to_owned());
             m.insert("RET".to_owned(), "123".to_owned());
+            m
+        };
+
+        assert_eq!(interpolate(TEMPLATE, &mappings).unwrap(), EXPECTED);
+    }
+
+    #[test]
+    fn interpolate_empty_comment_line() {
+        const TEMPLATE: &str = r#"{##}"#;
+        const EXPECTED: &str = r#""#;
+        assert_eq!(interpolate(TEMPLATE, &Mappings::new()).unwrap(), EXPECTED);
+    }
+
+    #[test]
+    fn interpolate_empty_comment_block() {
+        const TEMPLATE: &str = r#"{#
+#}"#;
+        const EXPECTED: &str = r#""#;
+        assert_eq!(interpolate(TEMPLATE, &Mappings::new()).unwrap(), EXPECTED);
+    }
+
+    #[test]
+    fn interpolate_simple_comment_line() {
+        const TEMPLATE: &str = r#"{# This is a comment line #}"#;
+        const EXPECTED: &str = r#""#;
+        assert_eq!(interpolate(TEMPLATE, &Mappings::new()).unwrap(), EXPECTED);
+    }
+
+    #[test]
+    fn interpolate_simple_comment_block() {
+        const TEMPLATE: &str = r#"{# This
+is a comment
+block
+#}"#;
+        const EXPECTED: &str = r#""#;
+        assert_eq!(interpolate(TEMPLATE, &Mappings::new()).unwrap(), EXPECTED);
+    }
+
+    #[test]
+    fn interpolate_comment_with_mixed() {
+        const TEMPLATE: &str =
+            r#"{% if SHOW %}{# Comment1 #}How{#Comment2#}are{{SHOW}}{%endif%}"#;
+        const EXPECTED_NO_MAPPING: &str = r#""#;
+        const EXPECTED: &str = r#"Howareyou"#;
+
+        assert_eq!(
+            interpolate(TEMPLATE, &Mappings::new()).unwrap(),
+            EXPECTED_NO_MAPPING
+        );
+
+        let mappings = {
+            let mut m = Mappings::new();
+            m.insert("SHOW".to_owned(), "you".to_owned());
             m
         };
 

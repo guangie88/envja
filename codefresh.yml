@@ -96,15 +96,17 @@ steps:
         on:
         - success
 
-  cargo_publish:
-    title: Publish to Cargo
+  cargo_lib_publish:
+    title: Publish to Cargo for lib
     stage: cargo-publish
     image: clux/muslrust:stable
-    working_directory: ${{main_clone}}
+    working_directory: ${{main_clone}}/lib
     commands:
     - cargo login ${{CRATES_TOKEN}}
-    - cd lib && cargo publish && cd -
-    - cd cli && cargo publish && cd -
+    - cargo publish
+    retry:
+      maxAttempts: 3
+      delay: 10
     when:
       condition:
         all:
@@ -112,5 +114,26 @@ steps:
           is_release_tag: 'match("${{CF_RELEASE_TAG}}", "^v\\d+\\.\\d+\\.\\d+$", false)'
       steps:
       - name: main_clone
+        on:
+        - success
+
+  cargo_cli_publish:
+    title: Publish to Cargo for CLI
+    stage: cargo-publish
+    image: clux/muslrust:stable
+    working_directory: ${{main_clone}}/cli
+    commands:
+    - cargo login ${{CRATES_TOKEN}}
+    - cargo publish
+    retry:
+      maxAttempts: 3
+      delay: 10
+    when:
+      condition:
+        all:
+          is_master_branch: '"${{CF_BRANCH}}" == "master"'
+          is_release_tag: 'match("${{CF_RELEASE_TAG}}", "^v\\d+\\.\\d+\\.\\d+$", false)'
+      steps:
+      - name: cargo_lib_publish
         on:
         - success
